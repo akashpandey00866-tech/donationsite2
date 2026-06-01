@@ -177,20 +177,69 @@ alert('✅ Login Successful');
 alert('❌ Wrong Password');
 }
 }
+window.addDonation = async()=>{
 
-window.addDonation=async()=>{
-await addDoc(collection(db,'donations'),{
-name:name.value,
-amount:amount.value?Number(amount.value):null,
-special:special.value||''
-});
-name.value=''; amount.value=''; special.value='';
+if(!admin){
+alert('❌ पहले login करें');
+return;
 }
 
-window.addExpense=async()=>{
-await addDoc(collection(db,'expenses'),{
-item:item.value,
-cost:Number(cost.value)
+if(!name.value.trim()){
+alert('❌ नाम डालें');
+return;
+}
+
+try{
+
+await addDoc(
+collection(db,'donations'),
+{
+name:
+name.value.trim(),
+
+amount:
+amount.value
+?
+Number(amount.value)
+:
+0,
+
+date:
+date.value
+?
+date.value
+:
+'',
+
+special:
+special.value
+?
+special.value.trim()
+:
+''
+}
+);
+
+name.value='';
+amount.value='';
+date.value='';
+special.value='';
+
+alert(
+'✅ Donation Added Successfully'
+);
+
+}catch(err){
+
+console.log(err);
+
+alert(
+'❌ Donation Add नहीं हुआ'
+);
+
+}
+
+}
 });
 item.value=''; cost.value='';
 }
