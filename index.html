@@ -45,7 +45,7 @@ th,td{padding:10px;border:1px solid #ddd} th{background:#ffd700}
 <div class="rank">
 <h2>🏆 माँ काली के विशेष सहयोगी 🏆</h2>
 <p id="top3">Loading...</p>
-<p>माँ काली की कृपा आप सभी भक्तों पर सदैव बनी रहे। आपके सहयोग, सेवा और श्रद्धा से इस कार्यक्रम को सफल बनाने में मदद मिलेगी।</p>
+<p>माँ काली की कृपा आप सभी भक्तों पर सदैव बनी रहे। आपके सहयोग, सेवा और श्रद्धा[...]
 </div>
 
 <h2>🔐 Admin Login</h2>
@@ -68,7 +68,7 @@ th,td{padding:10px;border:1px solid #ddd} th{background:#ffd700}
 
 <div id="qr" class="modal" onclick="hideQR()"><div class="modalbox" onclick="event.stopPropagation()">
 <h2>QR Scan करके दान करें</h2>
-<img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAYGBgYHBgcICAcKCwoLCg8ODAwODxYQERAREBYiFRkVFRkVIh4kHhweJB42KiYmKjY+NDI0PkxERExfWl98fKcBBgYGBgcGBwgIBwoLCgsKDw4MDA4PFhAREBEQFiIVGRUVGRUiHiQeHB4kHjYqJiYqNj40MjQ+TERETFlV">
+<img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAYGBgYHBgcICAcKCwoLCg8ODAwODxYQERAREBYiFRkVFRkVIh4kHhweJB42KiYmKjY+NDI0PkxERExfWl98fKcBBgYGBgcGBwgIBwoLCgsKDw4MDA4PFhAREBEQFiIVGRU[...]
 <p><b>UPI:</b> 8004315078@axl</p>
 <button onclick="hideQR()">Close</button>
 </div></div>
@@ -89,6 +89,18 @@ let donations = [];
 let unsubscribe = null;
 let db = null;
 
+// ✅ FIX: Firebase SDK load hone ka wait karo
+function waitForFirebase(callback, retries = 50) {
+  if (typeof window.firebase !== 'undefined' && window.firebase.apps) {
+    callback();
+  } else if (retries > 0) {
+    setTimeout(() => waitForFirebase(callback, retries - 1), 100);
+  } else {
+    console.error('Firebase SDK failed to load');
+    updateSyncStatus(false);
+  }
+}
+
 // Initialize Firebase
 function initializeFirebase() {
   try {
@@ -102,14 +114,14 @@ function initializeFirebase() {
     
     const donationsCollection = db.collection('donations');
 
-    // Real-time sync from Firestore - WITHOUT orderBy (no index needed)
+    // Real-time sync from Firestore
     unsubscribe = donationsCollection.onSnapshot((snapshot) => {
       donations = [];
       snapshot.forEach((doc) => {
         donations.push({ id: doc.id, ...doc.data() });
       });
       
-      // Sort in JavaScript instead of Firestore
+      // Sort in JavaScript
       donations.sort((a, b) => {
         const dateA = new Date(a.date || '1900-01-01');
         const dateB = new Date(b.date || '1900-01-01');
@@ -244,12 +256,8 @@ function render() {
 window.addEventListener('offline', () => updateSyncStatus(false));
 window.addEventListener('online', () => updateSyncStatus(true));
 
-// Wait for Firebase to load, then initialize
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initializeFirebase);
-} else {
-  initializeFirebase();
-}
+// ✅ FIX: Firebase SDK load hone ka wait karo, phir initialize karo
+waitForFirebase(initializeFirebase);
 
 // Cleanup on page unload
 window.addEventListener('beforeunload', () => {
