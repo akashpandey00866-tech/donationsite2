@@ -92,7 +92,7 @@ let db = null;
 // Initialize Firebase
 function initializeFirebase() {
   try {
-    if (!window.firebase || !window.firebase.apps || !window.firebase.apps.length) {
+    if (!window.firebase.apps.length) {
       window.firebase.initializeApp(firebaseConfig);
       console.log('Firebase initialized');
     }
@@ -102,12 +102,20 @@ function initializeFirebase() {
     
     const donationsCollection = db.collection('donations');
 
-    // Real-time sync from Firestore
-    unsubscribe = donationsCollection.orderBy('date', 'desc').onSnapshot((snapshot) => {
+    // Real-time sync from Firestore - WITHOUT orderBy (no index needed)
+    unsubscribe = donationsCollection.onSnapshot((snapshot) => {
       donations = [];
       snapshot.forEach((doc) => {
         donations.push({ id: doc.id, ...doc.data() });
       });
+      
+      // Sort in JavaScript instead of Firestore
+      donations.sort((a, b) => {
+        const dateA = new Date(a.date || '1900-01-01');
+        const dateB = new Date(b.date || '1900-01-01');
+        return dateB - dateA;
+      });
+      
       console.log('Donations loaded:', donations.length);
       render();
       updateSyncStatus(true);
