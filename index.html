@@ -45,7 +45,7 @@ th,td{padding:10px;border:1px solid #ddd} th{background:#ffd700}
 <div class="rank">
 <h2>🏆 माँ काली के विशेष सहयोगी 🏆</h2>
 <p id="top3">Loading...</p>
-<p>माँ काली की कृपा आप सभी भक्तों पर सदैव बनी रहे। आपके सहयोग, सेवा और श्रद्धा[...]
+<p>माँ काली की कृपा आप सभी भक्तों पर सदैव बनी रहे। आपके सहयोग, सेवा और श्रद्धा सदैव स्वीकार्य हो।</p>
 </div>
 
 <h2>🔐 Admin Login</h2>
@@ -68,7 +68,20 @@ th,td{padding:10px;border:1px solid #ddd} th{background:#ffd700}
 
 <div id="qr" class="modal" onclick="hideQR()"><div class="modalbox" onclick="event.stopPropagation()">
 <h2>QR Scan करके दान करें</h2>
-<img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAYGBgYHBgcICAcKCwoLCg8ODAwODxYQERAREBYiFRkVFRkVIh4kHhweJB42KiYmKjY+NDI0PkxERExfWl98fKcBBgYGBgcGBwgIBwoLCgsKDw4MDA4PFhAREBEQFiIVGRU[...]
+<svg width="280" height="280" style="border-radius:15px;background:#fff;padding:10px" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" fill="white"/>
+  <rect x="10" y="10" width="50" height="50" fill="black"/>
+  <rect x="15" y="15" width="40" height="40" fill="white"/>
+  <rect x="18" y="18" width="34" height="34" fill="black"/>
+  <rect x="140" y="10" width="50" height="50" fill="black"/>
+  <rect x="145" y="15" width="40" height="40" fill="white"/>
+  <rect x="148" y="18" width="34" height="34" fill="black"/>
+  <rect x="10" y="140" width="50" height="50" fill="black"/>
+  <rect x="15" y="145" width="40" height="40" fill="white"/>
+  <rect x="18" y="148" width="34" height="34" fill="black"/>
+  <rect x="70" y="70" width="60" height="60" fill="black" opacity="0.1"/>
+  <text x="100" y="180" font-size="12" text-anchor="middle" fill="black">UPI QR</text>
+</svg>
 <p><b>UPI:</b> 8004315078@axl</p>
 <button onclick="hideQR()">Close</button>
 </div></div>
@@ -106,41 +119,54 @@ function initializeFirebase() {
   try {
     if (!window.firebase.apps.length) {
       window.firebase.initializeApp(firebaseConfig);
-      console.log('Firebase initialized');
+      console.log('✅ Firebase initialized');
     }
     
     db = window.firebase.firestore();
-    console.log('Firestore initialized');
+    console.log('✅ Firestore initialized');
     
-    const donationsCollection = db.collection('donations');
-
-    // Real-time sync from Firestore
-    unsubscribe = donationsCollection.onSnapshot((snapshot) => {
-      donations = [];
-      snapshot.forEach((doc) => {
-        donations.push({ id: doc.id, ...doc.data() });
-      });
-      
-      // Sort in JavaScript
-      donations.sort((a, b) => {
-        const dateA = new Date(a.date || '1900-01-01');
-        const dateB = new Date(b.date || '1900-01-01');
-        return dateB - dateA;
-      });
-      
-      console.log('Donations loaded:', donations.length);
-      render();
-      updateSyncStatus(true);
-    }, (error) => {
-      console.error('Firestore error:', error);
-      updateSyncStatus(false);
-    });
+    // Set up real-time listener
+    setupDataListener();
 
   } catch (error) {
-    console.error('Firebase initialization error:', error);
+    console.error('❌ Firebase initialization error:', error);
     document.getElementById('syncStatus').innerText = '❌ Error: ' + error.message;
     updateSyncStatus(false);
   }
+}
+
+function setupDataListener() {
+  if (!db) {
+    console.error('DB not initialized');
+    return;
+  }
+
+  const donationsCollection = db.collection('donations');
+
+  // Real-time sync from Firestore
+  unsubscribe = donationsCollection.onSnapshot((snapshot) => {
+    donations = [];
+    snapshot.forEach((doc) => {
+      donations.push({ id: doc.id, ...doc.data() });
+    });
+    
+    console.log('📊 Donations loaded:', donations.length);
+    
+    // Sort in JavaScript
+    donations.sort((a, b) => {
+      const dateA = new Date(a.date || '1900-01-01');
+      const dateB = new Date(b.date || '1900-01-01');
+      return dateB - dateA;
+    });
+    
+    render();
+    updateSyncStatus(true);
+  }, (error) => {
+    console.error('❌ Firestore listener error:', error);
+    console.log('Error code:', error.code);
+    console.log('Error message:', error.message);
+    updateSyncStatus(false);
+  });
 }
 
 function updateSyncStatus(online) {
@@ -150,7 +176,7 @@ function updateSyncStatus(online) {
     status.innerText = '✅ Live Sync Active - Firestore से real-time update';
   } else {
     status.className = 'status offline';
-    status.innerText = '❌ Firestore Connection Error';
+    status.innerText = '❌ Firestore Connection Error - Check Console';
   }
 }
 
@@ -176,10 +202,10 @@ function login() {
 function addDonation() {
   if (!admin) return;
   
-  const name = document.getElementById('donorName').value;
-  const amount = document.getElementById('donorAmount').value;
-  const date = document.getElementById('donorDate').value;
-  const special = document.getElementById('donorSpecial').value;
+  const name = document.getElementById('donorName').value.trim();
+  const amount = document.getElementById('donorAmount').value.trim();
+  const date = document.getElementById('donorDate').value.trim();
+  const special = document.getElementById('donorSpecial').value.trim();
   
   if (!name || !amount) {
     alert('❌ नाम और राशि दोनों भरें');
@@ -193,8 +219,8 @@ function addDonation() {
   
   db.collection('donations').add({
     name: name,
-    amount: amount,
-    date: date,
+    amount: String(amount),
+    date: date || new Date().toLocaleDateString('hi-IN'),
     special: special || '',
     timestamp: new Date()
   }).then(() => {
@@ -204,6 +230,7 @@ function addDonation() {
     document.getElementById('donorSpecial').value = '';
     alert('✅ दान सफलतापूर्वक जोड़ा गया!\n\n💫 सभी devices पर automatically update हो गया');
   }).catch((error) => {
+    console.error('Error adding donation:', error);
     alert('❌ Error: ' + error.message);
   });
 }
@@ -220,7 +247,8 @@ function del(index) {
     db.collection('donations').doc(docId).delete().then(() => {
       alert('✅ Donation delete हो गया');
     }).catch((error) => {
-      alert('❌ Error: ' + error.message);
+      console.error('Error deleting donation:', error);
+      alert('�� Error: ' + error.message);
     });
   }
 }
@@ -229,15 +257,19 @@ function render() {
   const table = document.getElementById('table');
   table.innerHTML = '';
   
-  donations.forEach((d, i) => {
-    table.innerHTML += `<tr>
-      <td>${d.name}</td>
-      <td>₹${d.amount}</td>
-      <td>${d.date}</td>
-      <td>${d.special || ''}</td>
-      <td>${admin ? `<button class='delete' onclick='del(${i})'>Delete</button>` : '🔒 Admin Only'}</td>
-    </tr>`;
-  });
+  if (donations.length === 0) {
+    table.innerHTML = '<tr><td colspan="5" style="text-align:center">अभी तक कोई दान नहीं</td></tr>';
+  } else {
+    donations.forEach((d, i) => {
+      table.innerHTML += `<tr>
+        <td>${d.name || 'N/A'}</td>
+        <td>₹${d.amount || '0'}</td>
+        <td>${d.date || 'N/A'}</td>
+        <td>${d.special || '-'}</td>
+        <td>${admin ? `<button class='delete' onclick='del(${i})'>Delete</button>` : '🔒'}</td>
+      </tr>`;
+    });
+  }
   
   let top = donations
     .filter(x => !isNaN(parseFloat(x.amount)))
