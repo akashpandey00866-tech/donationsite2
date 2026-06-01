@@ -3,11 +3,16 @@
 
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-<title>जय मां काली समिति धौरहरा काली चरन</title>
+<title>
+जय मां काली समिति धौरहरा काली चरन
+</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link
+href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap"
+rel="stylesheet">
 
 <style>
 
@@ -19,14 +24,23 @@ font-family:'Poppins',sans-serif;
 }
 
 body{
+
 background:
-linear-gradient(rgba(20,0,0,.82),rgba(20,0,0,.82)),
-url("https://images.unsplash.com/photo-1512632578888-169bbbc64f33?q=80&w=1200");
+linear-gradient(
+rgba(35,0,0,.88),
+rgba(35,0,0,.88)
+),
+
+url(
+'https://images.unsplash.com/photo-1512632578888-169bbbc64f33?q=80&w=1400'
+);
+
 background-size:cover;
 background-position:center;
 color:#fff;
 min-height:100vh;
 overflow-x:hidden;
+
 }
 
 .container{
@@ -36,68 +50,101 @@ margin:auto;
 padding:20px;
 }
 
-/* HEADER */
+/* HERO */
 
 .hero{
-text-align:center;
-padding:45px 20px;
-border-radius:30px;
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(12px);
-box-shadow:0 0 35px rgba(255,215,0,.15);
-border:1px solid rgba(255,255,255,.1);
+
 margin-top:20px;
-animation:fadeDown 1s ease;
+padding:40px 25px;
+border-radius:30px;
+
+background:
+rgba(255,255,255,.08);
+
+backdrop-filter:blur(12px);
+
+border:
+1px solid
+rgba(255,255,255,.1);
+
+text-align:center;
+
+box-shadow:
+0 0 30px
+rgba(255,215,0,.12);
+
 }
 
 .hero h1{
-font-size:52px;
-font-weight:700;
+
+font-size:50px;
 color:#FFD700;
-text-shadow:0 0 15px rgba(255,215,0,.4);
 margin-bottom:15px;
+
 }
 
 .hero h2{
-font-size:26px;
-margin-bottom:12px;
+
+font-size:25px;
 font-weight:500;
+margin-bottom:12px;
+
 }
 
 .hero p{
+
 font-size:18px;
-opacity:.95;
 line-height:1.8;
+
 }
 
-.live-badge{
+.live{
+
 display:inline-block;
+margin-top:18px;
+
 padding:10px 20px;
+
 border-radius:50px;
-margin-top:20px;
+
+background:#0aa745;
+
 font-weight:bold;
-background:#0ea44b;
-animation:pulse 1.4s infinite;
+
 }
 
 /* CARD */
 
 .card{
+
 margin-top:25px;
+
 padding:28px;
-border-radius:28px;
-background:rgba(255,255,255,.08);
+
+border-radius:30px;
+
+background:
+rgba(255,255,255,.08);
+
 backdrop-filter:blur(12px);
-box-shadow:0 0 20px rgba(255,255,255,.08);
-border:1px solid rgba(255,255,255,.1);
+
+border:
+1px solid
+rgba(255,255,255,.1);
+
+box-shadow:
+0 0 20px
+rgba(255,255,255,.06);
+
 }
 
 .section-title{
+
 text-align:center;
 font-size:34px;
 margin-bottom:25px;
-font-weight:700;
 color:#FFD700;
+
 }
 
 /* PAYMENT */
@@ -107,193 +154,205 @@ text-align:center;
 }
 
 .upi{
-font-size:28px;
+
+font-size:30px;
 font-weight:bold;
+margin-top:15px;
 color:#FFD700;
-margin-top:12px;
-word-break:break-word;
+
 }
 
 .pay-btn{
+
 margin-top:20px;
+
 padding:18px 45px;
+
 border:none;
+
 border-radius:100px;
-font-size:20px;
-font-weight:700;
+
 cursor:pointer;
-background:linear-gradient(45deg,#FFD700,#ff9d00);
+
+font-size:20px;
+
+font-weight:bold;
+
+background:
+linear-gradient(
+45deg,
+#FFD700,
+#ff9d00
+);
+
 color:#000;
-transition:.35s;
+
+transition:.3s;
+
 }
 
 .pay-btn:hover{
-transform:scale(1.06);
+
+transform:scale(1.05);
+
 }
 
-/* QR POPUP */
+/* QR */
 
 .qr-box{
+
 position:fixed;
+
 top:0;
 left:0;
+
 width:100%;
 height:100%;
+
 display:none;
+
 justify-content:center;
 align-items:center;
-background:rgba(0,0,0,.86);
+
+background:
+rgba(0,0,0,.85);
+
 z-index:9999;
+
 }
 
 .qr-card{
+
 background:#fff;
-padding:30px;
-border-radius:30px;
-text-align:center;
+color:#000;
+
 width:90%;
 max-width:420px;
-color:#000;
-animation:popup .4s ease;
+
+padding:30px;
+
+border-radius:30px;
+
+text-align:center;
+
 }
 
 .qr-card img{
+
 width:100%;
 border-radius:20px;
-box-shadow:0 0 20px rgba(0,0,0,.15);
+
 }
 
 .close-btn{
+
 margin-top:20px;
-background:#d60000;
-color:#fff;
-border:none;
+
 padding:14px 22px;
+
+border:none;
+
 border-radius:18px;
+
+background:red;
+color:#fff;
+
 cursor:pointer;
+
 font-weight:bold;
-font-size:17px;
+
 }
 
 /* STATS */
 
 .stats{
+
 display:grid;
+
 grid-template-columns:
-repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
-margin-top:25px;
-}
-
-.stat-box{
-background:
-linear-gradient(145deg,
-rgba(255,215,0,.15),
-rgba(255,255,255,.06));
-padding:25px;
-text-align:center;
-border-radius:28px;
-transition:.3s;
-}
-
-.stat-box:hover{
-transform:translateY(-4px);
-}
-
-.stat-box h3{
-font-size:20px;
-opacity:.9;
-}
-
-.stat-box h2{
-margin-top:12px;
-font-size:40px;
-color:#FFD700;
-}
-
-/* TOP DONORS */
-
-.top-grid{
-display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(260px,1fr));
-gap:20px;
-}
-
-.top-card{
-padding:20px;
-border-radius:22px;
-text-align:center;
-background:
-linear-gradient(
-145deg,
-rgba(255,215,0,.15),
-rgba(255,255,255,.05)
+repeat(
+auto-fit,
+minmax(240px,1fr)
 );
+
+gap:20px;
+
+margin-top:20px;
+
 }
 
-.top-card h2{
-font-size:25px;
-margin-bottom:10px;
+.stat{
+
+padding:25px;
+
+border-radius:25px;
+
+text-align:center;
+
+background:
+rgba(255,255,255,.08);
+
 }
 
-.top-card p{
-font-size:18px;
+.stat h3{
+
+font-size:20px;
+
 }
 
-/* SEARCH */
+.stat h2{
 
-.search-box{
-display:flex;
-justify-content:center;
-margin-bottom:25px;
-}
+margin-top:10px;
 
-.search-box input{
-width:100%;
-max-width:500px;
-padding:16px;
-font-size:18px;
-border:none;
-outline:none;
-border-radius:18px;
+font-size:40px;
+
+color:#FFD700;
+
 }
 
 /* ADMIN */
 
 .admin-box{
+
 display:flex;
 flex-direction:column;
 gap:15px;
+
 }
 
 input{
+
 padding:16px;
-font-size:17px;
+
 border:none;
 outline:none;
+
 border-radius:18px;
+
+font-size:17px;
+
 }
 
-.login-btn,
-.add-btn{
-padding:16px;
-font-size:18px;
-font-weight:bold;
+button{
+
 border:none;
 cursor:pointer;
-border-radius:18px;
+
 }
 
 .login-btn{
+
+padding:16px;
+
+border-radius:18px;
+
+font-size:18px;
+
+font-weight:bold;
+
 background:#FFD700;
 color:#000;
-}
 
-.add-btn{
-background:#0ea44b;
-color:#fff;
-margin-top:10px;
 }
 
 #adminPanel{
@@ -302,108 +361,116 @@ margin-top:20px;
 }
 
 .form-grid{
+
 display:grid;
+
 grid-template-columns:
-repeat(auto-fit,minmax(250px,1fr));
+repeat(
+auto-fit,
+minmax(250px,1fr)
+);
+
 gap:15px;
+
+}
+
+.add-btn{
+
+margin-top:15px;
+
+padding:16px;
+
+width:100%;
+
+border-radius:18px;
+
+background:#0aa745;
+
+color:#fff;
+
+font-size:18px;
+
+font-weight:bold;
+
+}
+
+/* SEARCH */
+
+.search-box{
+
+margin-bottom:20px;
+
+}
+
+.search-box input{
+
+width:100%;
+
 }
 
 /* TABLE */
 
-.table-wrapper{
+.table-wrap{
+
 overflow-x:auto;
-border-radius:25px;
+border-radius:20px;
+
 }
 
 table{
+
 width:100%;
-background:#fff;
+
 border-collapse:collapse;
+
+background:#fff;
+
 color:#000;
-overflow:hidden;
+
 }
 
 th{
+
 background:#FFD700;
+
 padding:18px;
+
 font-size:18px;
+
 }
 
 td{
+
 padding:16px;
+
 border:1px solid #ddd;
+
 text-align:center;
-font-size:16px;
+
 }
 
 .delete-btn{
-background:#d60000;
+
+background:red;
 color:#fff;
-border:none;
-padding:10px 16px;
+
+padding:10px 15px;
+
 border-radius:12px;
-cursor:pointer;
+
 font-weight:bold;
+
 }
-
-.edit-btn{
-background:#0066ff;
-color:#fff;
-border:none;
-padding:10px 16px;
-border-radius:12px;
-cursor:pointer;
-font-weight:bold;
-margin-right:8px;
-}
-
-/* SPECIAL */
-
-.special-box{
-line-height:2.1;
-font-size:18px;
-text-align:center;
-}
-
-/* FOOTER */
 
 .footer{
+
+margin-top:30px;
 text-align:center;
-margin-top:25px;
-padding:30px;
 font-size:18px;
-opacity:.95;
+
 }
 
-/* ANIMATION */
-
-@keyframes pulse{
-50%{
-transform:scale(1.08);
-}
-}
-
-@keyframes popup{
-from{
-transform:scale(.7);
-opacity:0;
-}
-to{
-transform:scale(1);
-opacity:1;
-}
-}
-
-@keyframes fadeDown{
-from{
-opacity:0;
-transform:translateY(-40px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
+/* MOBILE */
 
 @media(max-width:768px){
 
@@ -412,7 +479,7 @@ font-size:34px;
 }
 
 .hero h2{
-font-size:21px;
+font-size:20px;
 }
 
 .section-title{
@@ -423,7 +490,7 @@ font-size:27px;
 width:100%;
 }
 
-td,th{
+th,td{
 font-size:13px;
 padding:10px;
 }
@@ -448,12 +515,12 @@ padding:10px;
 </h2>
 
 <p>
-दिनांक 02/06/2026 को आयोजित विशाल भंडारे हेतु
-सहयोग राशि सूची
+दिनांक 02/06/2026 को आयोजित
+विशाल भंडारे हेतु सहयोग राशि सूची
 </p>
 
-<div class="live-badge">
-🟢 LIVE FIREBASE SYNC
+<div class="live">
+🟢 FIREBASE LIVE
 </div>
 
 </div>
@@ -466,7 +533,9 @@ padding:10px;
 
 <div class="pay-box">
 
-<h3>UPI ID</h3>
+<h3>
+UPI ID
+</h3>
 
 <div class="upi">
 8004315078@axl
@@ -475,61 +544,37 @@ padding:10px;
 <button
 class="pay-btn"
 onclick="showQR()">
+
 QR Scan करके दान करें
+
 </button>
 
 </div>
 
 <div class="stats">
 
-<div class="stat-box">
-<h3>कुल सहयोगी</h3>
-<h2 id="count">0</h2>
-</div>
+<div class="stat">
 
-<div class="stat-box">
-<h3>कुल राशि</h3>
-<h2 id="total">₹0</h2>
-</div>
+<h3>
+कुल सहयोगी
+</h3>
 
-<div class="stat-box">
-<h3>Top Donor</h3>
-<h2 id="topDonor">
-Loading...
-</h2>
-</div>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<h2 class="section-title">
-🏆 माँ काली के विशेष सहयोगी
+<h2 id="count">
+0
 </h2>
 
-<div class="top-grid">
-
-<div class="top-card">
-<h2>🥇 प्रथम</h2>
-<p id="rank1">
-Loading...
-</p>
 </div>
 
-<div class="top-card">
-<h2>🥈 द्वितीय</h2>
-<p id="rank2">
-Loading...
-</p>
-</div>
+<div class="stat">
 
-<div class="top-card">
-<h2>🥉 तृतीय</h2>
-<p id="rank3">
-Loading...
-</p>
+<h3>
+कुल राशि
+</h3>
+
+<h2 id="total">
+₹0
+</h2>
+
 </div>
 
 </div>
@@ -572,7 +617,9 @@ placeholder="Admin Password"
 <button
 class="login-btn"
 onclick="login()">
+
 Login
+
 </button>
 
 </div>
@@ -593,7 +640,7 @@ placeholder="दानदाता नाम"
 <input
 id="amount"
 type="number"
-placeholder="दान राशि"
+placeholder="राशि"
 />
 
 <input
@@ -601,17 +648,14 @@ id="date"
 placeholder="दिनांक"
 />
 
-<input
-id="special"
-placeholder="विशेष सहयोग"
-/>
-
 </div>
 
 <button
 class="add-btn"
 onclick="addDonation()">
+
 Donation Add
+
 </button>
 
 </div>
@@ -624,52 +668,39 @@ Donation Add
 📜 दानदाताओं की सूची
 </h2>
 
-<div class="table-wrapper">
+<div class="table-wrap">
 
 <table>
 
 <thead>
 
 <tr>
-<th>नाम</th>
-<th>राशि</th>
-<th>दिनांक</th>
-<th>विशेष सहयोग</th>
-<th>Action</th>
+
+<th>
+नाम
+</th>
+
+<th>
+राशि
+</th>
+
+<th>
+दिनांक
+</th>
+
+<th>
+Action
+</th>
+
 </tr>
 
 </thead>
 
-<tbody id="table"></tbody>
+<tbody id="table">
+
+</tbody>
 
 </table>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<h2 class="section-title">
-🌺 विशेष सहयोग 🌺
-</h2>
-
-<div class="special-box">
-
-<p>
-✅ श्री संदीप पाण्डेय जी की ओर से
-टेंट, लाइट एवं साउंड व्यवस्था
-</p>
-
-<p>
-✅ श्री कपिल पांडेय जी की ओर से
-1 टीन रिफाइंड की व्यवस्था
-</p>
-
-<p>
-🙏 आप सभी भक्तों का
-हार्दिक धन्यवाद 🙏
-</p>
 
 </div>
 
@@ -686,8 +717,10 @@ Donation Add
 </h2>
 
 <p style="margin-top:15px">
+
 आप सभी सहयोगियों का
 बहुत बहुत धन्यवाद
+
 </p>
 
 </div>
@@ -712,14 +745,18 @@ alt="QR Code"
 />
 
 <h3 style="margin-top:20px">
+
 UPI:
 8004315078@axl
+
 </h3>
 
 <button
 class="close-btn"
 onclick="hideQR()">
+
 Close
+
 </button>
 
 </div>
@@ -733,14 +770,18 @@ from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
+
 getFirestore,
 collection,
 addDoc,
 deleteDoc,
 doc,
 onSnapshot
+
 }
+
 from
+
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -784,7 +825,8 @@ function showQR(){
 
 document.getElementById(
 "qrBox"
-).style.display="flex";
+).style.display =
+"flex";
 
 }
 
@@ -792,19 +834,25 @@ function hideQR(){
 
 document.getElementById(
 "qrBox"
-).style.display="none";
+).style.display =
+"none";
 
 }
 
-window.showQR = showQR;
-window.hideQR = hideQR;
+window.showQR =
+showQR;
+
+window.hideQR =
+hideQR;
 
 function searchDonation(){
 
 const input =
 document.getElementById(
 "searchInput"
-).value.toLowerCase();
+)
+.value
+.toLowerCase();
 
 const rows =
 document.querySelectorAll(
@@ -813,11 +861,12 @@ document.querySelectorAll(
 
 rows.forEach(row=>{
 
-const text =
-row.innerText.toLowerCase();
+const txt =
+row.innerText
+.toLowerCase();
 
 row.style.display =
-text.includes(input)
+txt.includes(input)
 ?
 ""
 :
@@ -834,14 +883,29 @@ function render(){
 
 table.innerHTML = "";
 
+let total = 0;
+
 donations.forEach((d)=>{
+
+total +=
+Number(
+d.amount || 0
+);
 
 table.innerHTML += `
 <tr>
-<td>${d.name}</td>
-<td>₹${d.amount}</td>
-<td>${d.date || "-"}</td>
-<td>${d.special || "-"}</td>
+
+<td>
+${d.name}
+</td>
+
+<td>
+₹${d.amount}
+</td>
+
+<td>
+${d.date || "-"}
+</td>
 
 <td>
 ${
@@ -858,20 +922,16 @@ Delete
 "🔒"
 }
 </td>
+
 </tr>
 `;
 
 });
 
-let total = 0;
-
-donations.forEach((d)=>{
-
-total += Number(
-d.amount || 0
-);
-
-});
+document.getElementById(
+"count"
+).innerText =
+donations.length;
 
 document.getElementById(
 "total"
@@ -881,59 +941,8 @@ total.toLocaleString(
 "en-IN"
 );
 
-document.getElementById(
-"count"
-).innerText =
-donations.length;
-
-const top =
-[...donations]
-.sort((a,b)=>
-Number(b.amount)-
-Number(a.amount)
-);
-
-document.getElementById(
-"topDonor"
-).innerText =
-top[0]
-?
-top[0].name
-:
-"Loading...";
-  
-document.getElementById(
-"rank1"
-).innerText =
-top[0]
-?
-`${top[0].name}
-(₹${top[0].amount})`
-:
-"Loading...";
-
-document.getElementById(
-"rank2"
-).innerText =
-top[1]
-?
-`${top[1].name}
-(₹${top[1].amount})`
-:
-"Loading...";
-
-document.getElementById(
-"rank3"
-).innerText =
-top[2]
-?
-`${top[2].name}
-(₹${top[2].amount})`
-:
-"Loading...";
-
 }
-
+  
 window.login =
 function(){
 
@@ -991,18 +1000,13 @@ document.getElementById(
 "date"
 ).value;
 
-const special =
-document.getElementById(
-"special"
-).value;
-
 if(
 !name ||
 !amount
 ){
 
 alert(
-"❌ Name और Amount जरूरी है"
+"❌ नाम और राशि जरूरी है"
 );
 
 return;
@@ -1017,26 +1021,24 @@ db,
 {
 name,
 amount,
-date,
-special
+date
 }
 );
 
 document.getElementById(
 "name"
-).value = "";
+).value =
+"";
 
 document.getElementById(
 "amount"
-).value = "";
+).value =
+"";
 
 document.getElementById(
 "date"
-).value = "";
-
-document.getElementById(
-"special"
-).value = "";
+).value =
+"";
 
 alert(
 "✅ Donation Added"
@@ -1076,23 +1078,21 @@ db,
 ),
 (snapshot)=>{
 
-donations=[];
+donations = [];
 
 snapshot.forEach(
 (docSnap)=>{
 
 donations.push({
-id:docSnap.id,
+
+id:
+docSnap.id,
+
 ...docSnap.data()
-});
 
 });
 
-donations.sort(
-(a,b)=>
-Number(b.amount)-
-Number(a.amount)
-);
+});
 
 render();
 
@@ -1100,7 +1100,7 @@ render();
 );
 
 /* ==========================
-DEFAULT DONOR DATA
+DEFAULT DONOR LIST
 ========================== */
 
 async function seedData(){
@@ -1173,6 +1173,12 @@ date:"02/06/2026"
 },
 
 {
+name:"श्री श्री राम पाण्डेय",
+amount:500,
+date:"02/06/2026"
+},
+
+{
 name:"श्री अमित पाण्डेय",
 amount:500,
 date:"02/06/2026"
@@ -1203,7 +1209,7 @@ date:"02/06/2026"
 },
 
 {
-name:"श्री इंद्रदत्त पाण्डेय",
+name:"श्री इंद्रदत्त पाण्डेय (गोली)",
 amount:500,
 date:"02/06/2026"
 },
@@ -1229,6 +1235,425 @@ date:"02/06/2026"
 {
 name:"श्री सौरभ पाण्डेय",
 amount:251,
+date:"02/06/2026"
+},
+
+{
+name:"श्री विजय पाण्डेय",
+amount:250,
+date:"02/06/2026"
+},
+
+{
+name:"श्री राजेश तिवारी",
+amount:200,
+date:"02/06/2026"
+},
+
+{
+name:"श्री राज कुमार शुक्ला",
+amount:200,
+date:"02/06/2026"
+},
+
+{
+name:"श्री कृष्णमोहन पाण्डेय",
+amount:200,
+date:"02/06/2026"
+},
+
+{
+name:"श्री सहदेव पाण्डेय",
+amount:200,
+date:"02/06/2026"
+}
+
+];
+  
+window.login =
+function(){
+
+const pass =
+document.getElementById(
+"password"
+).value;
+
+if(
+pass ===
+"ashok#"
+){
+
+admin = true;
+
+document.getElementById(
+"adminPanel"
+).style.display =
+"block";
+
+render();
+
+alert(
+"✅ Admin Login Success"
+);
+
+}else{
+
+alert(
+"❌ Wrong Password"
+);
+
+}
+
+};
+
+window.addDonation =
+async function(){
+
+if(!admin)
+return;
+
+const name =
+document.getElementById(
+"name"
+).value;
+
+const amount =
+document.getElementById(
+"amount"
+).value;
+
+const date =
+document.getElementById(
+"date"
+).value;
+
+if(
+!name ||
+!amount
+){
+
+alert(
+"❌ नाम और राशि जरूरी है"
+);
+
+return;
+
+}
+
+await addDoc(
+collection(
+db,
+"donations"
+),
+{
+name,
+amount,
+date
+}
+);
+
+document.getElementById(
+"name"
+).value =
+"";
+
+document.getElementById(
+"amount"
+).value =
+"";
+
+document.getElementById(
+"date"
+).value =
+"";
+
+alert(
+"✅ Donation Added"
+);
+
+};
+
+window.removeDonation =
+async function(id){
+
+const ok =
+confirm(
+"क्या आप donation delete करना चाहते हैं?"
+);
+
+if(!ok)
+return;
+
+await deleteDoc(
+doc(
+db,
+"donations",
+id
+)
+);
+
+alert(
+"✅ Donation Deleted"
+);
+
+};
+
+onSnapshot(
+collection(
+db,
+"donations"
+),
+(snapshot)=>{
+
+donations = [];
+
+snapshot.forEach(
+(docSnap)=>{
+
+donations.push({
+
+id:
+docSnap.id,
+
+...docSnap.data()
+
+});
+
+});
+
+render();
+
+}
+);
+
+/* ==========================
+DEFAULT DONOR LIST
+========================== */
+
+async function seedData(){
+
+if(
+donations.length > 0
+)
+return;
+
+const donorList = [
+
+{
+name:"संजय पाण्डेय",
+amount:2000,
+date:"02/06/2026"
+},
+
+{
+name:"श्री सुरेश पाण्डेय",
+amount:1100,
+date:"02/06/2026"
+},
+
+{
+name:"श्री रामयज्ञ पाण्डेय",
+amount:1100,
+date:"02/06/2026"
+},
+
+{
+name:"श्री राम अंजोर पाण्डेय",
+amount:1100,
+date:"02/06/2026"
+},
+
+{
+name:"श्री इंद्रपाल पाण्डेय",
+amount:1000,
+date:"02/06/2026"
+},
+
+{
+name:"श्री अमरनाथ पाण्डेय",
+amount:1100,
+date:"02/06/2026"
+},
+
+{
+name:"श्री अनिल पाण्डेय",
+amount:501,
+date:"02/06/2026"
+},
+
+{
+name:"श्री चंद्रप्रकाश पाण्डेय",
+amount:501,
+date:"02/06/2026"
+},
+
+{
+name:"श्री अखिलेश पाण्डेय",
+amount:501,
+date:"02/06/2026"
+},
+
+{
+name:"श्री अमन पाण्डेय",
+amount:500,
+date:"02/06/2026"
+},
+
+{
+name:"श्री श्री राम पाण्डेय",
+amount:500,
+date:"02/06/2026"
+},
+
+{
+name:"श्री अमित पाण्डेय",
+amount:500,
+date:"02/06/2026"
+},
+
+{
+name:"श्री श्रीनिवास पाण्डेय",
+amount:500,
+date:"02/06/2026"
+},
+
+{
+name:"श्री आनंद तिवारी",
+amount:500,
+date:"02/06/2026"
+},
+
+{
+name:"श्री अरविंद पाण्डेय",
+amount:500,
+date:"02/06/2026"
+},
+
+{
+name:"श्री पंकज पाण्डेय",
+amount:500,
+date:"02/06/2026"
+},
+
+{
+name:"श्री इंद्रदत्त पाण्डेय (गोली)",
+amount:500,
+date:"02/06/2026"
+},
+
+{
+name:"श्री नरसिंह पाण्डेय",
+amount:500,
+date:"02/06/2026"
+},
+
+{
+name:"श्री ब्रिजेश पाण्डेय",
+amount:350,
+date:"02/06/2026"
+},
+
+{
+name:"श्री अवधेश यादव",
+amount:300,
+date:"02/06/2026"
+},
+
+{
+name:"श्री सौरभ पाण्डेय",
+amount:251,
+date:"02/06/2026"
+},
+
+{
+name:"श्री विजय पाण्डेय",
+amount:250,
+date:"02/06/2026"
+},
+
+{
+name:"श्री राजेश तिवारी",
+amount:200,
+date:"02/06/2026"
+},
+
+{
+name:"श्री राज कुमार शुक्ला",
+amount:200,
+date:"02/06/2026"
+},
+
+{
+name:"श्री कृष्णमोहन पाण्डेय",
+amount:200,
+date:"02/06/2026"
+},
+
+{
+name:"श्री सहदेव पाण्डेय",
+amount:200,
+date:"02/06/2026"
+}
+
+];
+
+{
+name:"श्री संजय पाण्डेय",
+amount:200,
+date:"02/06/2026"
+},
+
+{
+name:"श्री राजदत्त पाण्डेय",
+amount:200,
+date:"02/06/2026"
+},
+
+{
+name:"श्री फूलचंद्र यादव",
+amount:200,
+date:"02/06/2026"
+},
+
+{
+name:"श्री मोहित पाण्डेय",
+amount:200,
+date:"02/06/2026"
+},
+
+{
+name:"श्री हरिनाथ यादव",
+amount:110,
+date:"02/06/2026"
+},
+
+{
+name:"श्री राम अचल पाण्डेय",
+amount:100,
+date:"02/06/2026"
+},
+
+{
+name:"श्री राजेंद्र पाण्डेय",
+amount:100,
+date:"02/06/2026"
+},
+
+{
+name:"श्री जानकी पाण्डेय",
+amount:100,
+date:"02/06/2026"
+},
+
+{
+name:"श्री विवेक पाण्डेय",
+amount:100,
+date:"02/06/2026"
+},
+
+{
+name:"श्री राम गोपाल पाण्डेय",
+amount:50,
 date:"02/06/2026"
 }
 
@@ -1256,14 +1681,12 @@ console.log(
 }
 
 setTimeout(()=>{
+
 seedData();
+
 },3000);
 
-</script>
-  
-/* ==========================
-AUTO CLOSE QR ON OUTSIDE CLICK
-========================== */
+/* QR OUTSIDE CLICK */
 
 document.getElementById(
 "qrBox"
@@ -1275,15 +1698,15 @@ if(
 e.target.id ===
 "qrBox"
 ){
+
 hideQR();
+
 }
 
 }
 );
 
-/* ==========================
-ENTER KEY LOGIN
-========================== */
+/* ENTER KEY LOGIN */
 
 document.getElementById(
 "password"
@@ -1292,69 +1715,18 @@ document.getElementById(
 function(e){
 
 if(
-e.key === "Enter"
+e.key ===
+"Enter"
 ){
+
 login();
-}
-
-}
-);
-
-/* ==========================
-LIVE CLOCK TITLE
-========================== */
-
-setInterval(()=>{
-
-document.title =
-"जय मां काली समिति | " +
-new Date()
-.toLocaleTimeString(
-"en-IN"
-);
-
-},1000);
-
-/* ==========================
-WELCOME MESSAGE
-========================== */
-
-setTimeout(()=>{
-
-alert(
-"🙏 जय मां काली समिति वेबसाइट में आपका स्वागत है 🙏"
-);
-
-},1000);
-
-/* ==========================
-SORT TABLE HIGH TO LOW
-========================== */
-
-function sortByAmount(){
-
-donations.sort(
-(a,b)=>
-Number(b.amount)
--
-Number(a.amount)
-);
-
-render();
 
 }
 
-window.sortByAmount =
-sortByAmount;
-
-/* ==========================
-CONSOLE SUCCESS
-========================== */
-
-console.log(
-"🔥 Maa Kali Donation App Loaded Successfully"
+}
 );
 
+</script>
 
 </body>
 </html>
