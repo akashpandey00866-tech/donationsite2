@@ -87,140 +87,165 @@ const firebaseConfig = {
 let admin = false;
 let donations = [];
 let unsubscribe = null;
+let db = null;
 
-try {
-  if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
+// Initialize Firebase
+function initializeFirebase() {
+  try {
+    if (!window.firebase || !window.firebase.apps || !window.firebase.apps.length) {
+      window.firebase.initializeApp(firebaseConfig);
+      console.log('Firebase initialized');
+    }
+    
+    db = window.firebase.firestore();
+    console.log('Firestore initialized');
+    
+    const donationsCollection = db.collection('donations');
+
+    // Real-time sync from Firestore
+    unsubscribe = donationsCollection.orderBy('date', 'desc').onSnapshot((snapshot) => {
+      donations = [];
+      snapshot.forEach((doc) => {
+        donations.push({ id: doc.id, ...doc.data() });
+      });
+      console.log('Donations loaded:', donations.length);
+      render();
+      updateSyncStatus(true);
+    }, (error) => {
+      console.error('Firestore error:', error);
+      updateSyncStatus(false);
+    });
+
+  } catch (error) {
+    console.error('Firebase initialization error:', error);
+    document.getElementById('syncStatus').innerText = '❌ Error: ' + error.message;
+    updateSyncStatus(false);
+  }
+}
+
+function updateSyncStatus(online) {
+  const status = document.getElementById('syncStatus');
+  if (online) {
+    status.className = 'status online';
+    status.innerText = '✅ Live Sync Active - Firestore से real-time update';
+  } else {
+    status.className = 'status offline';
+    status.innerText = '❌ Firestore Connection Error';
+  }
+}
+
+function showQR() {
+  document.getElementById('qr').style.display = 'flex';
+}
+
+function hideQR() {
+  document.getElementById('qr').style.display = 'none';
+}
+
+function login() {
+  if (document.getElementById('pass').value === 'ashok#') {
+    admin = true;
+    document.getElementById('adminPanel').style.display = 'block';
+    render();
+    alert('✅ Admin Login Success');
+  } else {
+    alert('❌ Wrong password');
+  }
+}
+
+function addDonation() {
+  if (!admin) return;
+  
+  const name = document.getElementById('donorName').value;
+  const amount = document.getElementById('donorAmount').value;
+  const date = document.getElementById('donorDate').value;
+  const special = document.getElementById('donorSpecial').value;
+  
+  if (!name || !amount) {
+    alert('❌ नाम और राशि दोनों भरें');
+    return;
   }
   
-  const db = firebase.firestore();
-  const donationsCollection = db.collection('donations');
-
-  // Real-time sync from Firestore
-  unsubscribe = donationsCollection.orderBy('date', 'desc').onSnapshot((snapshot) => {
-    donations = [];
-    snapshot.forEach((doc) => {
-      donations.push({ id: doc.id, ...doc.data() });
-    });
-    render();
-    updateSyncStatus(true);
-  }, (error) => {
-    console.error('Firestore error:', error);
-    updateSyncStatus(false);
+  if (!db) {
+    alert('❌ Firebase not connected');
+    return;
+  }
+  
+  db.collection('donations').add({
+    name: name,
+    amount: amount,
+    date: date,
+    special: special || '',
+    timestamp: new Date()
+  }).then(() => {
+    document.getElementById('donorName').value = '';
+    document.getElementById('donorAmount').value = '';
+    document.getElementById('donorDate').value = '';
+    document.getElementById('donorSpecial').value = '';
+    alert('✅ दान सफलतापूर्वक जोड़ा गया!\n\n💫 सभी devices पर automatically update हो गया');
+  }).catch((error) => {
+    alert('❌ Error: ' + error.message);
   });
+}
 
-  function updateSyncStatus(online) {
-    const status = document.getElementById('syncStatus');
-    if (online) {
-      status.className = 'status online';
-      status.innerText = '✅ Live Sync Active - Firestore से real-time update';
-    } else {
-      status.className = 'status offline';
-      status.innerText = '❌ Firestore Connection Error';
-    }
-  }
-
-  function showQR() {
-    document.getElementById('qr').style.display = 'flex';
-  }
-
-  function hideQR() {
-    document.getElementById('qr').style.display = 'none';
-  }
-
-  function login() {
-    if (document.getElementById('pass').value === 'ashok#') {
-      admin = true;
-      document.getElementById('adminPanel').style.display = 'block';
-      render();
-      alert('✅ Admin Login Success');
-    } else {
-      alert('❌ Wrong password');
-    }
-  }
-
-  function addDonation() {
-    if (!admin) return;
-    
-    const name = document.getElementById('donorName').value;
-    const amount = document.getElementById('donorAmount').value;
-    const date = document.getElementById('donorDate').value;
-    const special = document.getElementById('donorSpecial').value;
-    
-    if (!name || !amount) {
-      alert('❌ नाम और राशि दोनों भरें');
+function del(index) {
+  if (!admin) return;
+  
+  if (confirm('क्या आप इस दान को हटाना चाहते हैं?')) {
+    const docId = donations[index].id;
+    if (!db) {
+      alert('❌ Firebase not connected');
       return;
     }
-    
-    donationsCollection.add({
-      name: name,
-      amount: amount,
-      date: date,
-      special: special || '',
-      timestamp: new Date()
-    }).then(() => {
-      document.getElementById('donorName').value = '';
-      document.getElementById('donorAmount').value = '';
-      document.getElementById('donorDate').value = '';
-      document.getElementById('donorSpecial').value = '';
-      alert('✅ दान सफलतापूर्वक जोड़ा गया!\n\n💫 सभी devices पर automatically update हो गया');
+    db.collection('donations').doc(docId).delete().then(() => {
+      alert('✅ Donation delete हो गया');
     }).catch((error) => {
       alert('❌ Error: ' + error.message);
     });
   }
-
-  function del(index) {
-    if (!admin) return;
-    
-    if (confirm('क्या आप इस दान को हटाना चाहते हैं?')) {
-      const docId = donations[index].id;
-      donationsCollection.doc(docId).delete().then(() => {
-        alert('✅ Donation delete हो गया');
-      }).catch((error) => {
-        alert('❌ Error: ' + error.message);
-      });
-    }
-  }
-
-  function render() {
-    const table = document.getElementById('table');
-    table.innerHTML = '';
-    
-    donations.forEach((d, i) => {
-      table.innerHTML += `<tr>
-        <td>${d.name}</td>
-        <td>₹${d.amount}</td>
-        <td>${d.date}</td>
-        <td>${d.special || ''}</td>
-        <td>${admin ? `<button class='delete' onclick='del(${i})'>Delete</button>` : '🔒 Admin Only'}</td>
-      </tr>`;
-    });
-    
-    let top = donations
-      .filter(x => !isNaN(parseFloat(x.amount)))
-      .sort((a, b) => parseFloat(b.amount) - parseFloat(a.amount))
-      .slice(0, 3);
-    
-    document.getElementById('top3').innerHTML = top.length > 0 
-      ? top.map((x, i) => `<b>${i + 1}.</b> ${x.name} — ₹${x.amount}`).join('<br>')
-      : 'अभी तक कोई दान नहीं';
-    
-    let total = donations.reduce((s, d) => s + (parseFloat(d.amount) || 0), 0);
-    document.getElementById('total').innerText = '₹' + total.toLocaleString('en-IN');
-    document.getElementById('count').innerText = donations.length;
-  }
-
-  window.addEventListener('offline', () => updateSyncStatus(false));
-  window.addEventListener('online', () => updateSyncStatus(true));
-
-  // Cleanup on page unload
-  window.addEventListener('beforeunload', () => {
-    if (unsubscribe) unsubscribe();
-  });
-
-} catch (error) {
-  console.error('Firebase error:', error);
-  document.getElementById('syncStatus').innerText = '❌ Firebase Error: ' + error.message;
 }
+
+function render() {
+  const table = document.getElementById('table');
+  table.innerHTML = '';
+  
+  donations.forEach((d, i) => {
+    table.innerHTML += `<tr>
+      <td>${d.name}</td>
+      <td>₹${d.amount}</td>
+      <td>${d.date}</td>
+      <td>${d.special || ''}</td>
+      <td>${admin ? `<button class='delete' onclick='del(${i})'>Delete</button>` : '🔒 Admin Only'}</td>
+    </tr>`;
+  });
+  
+  let top = donations
+    .filter(x => !isNaN(parseFloat(x.amount)))
+    .sort((a, b) => parseFloat(b.amount) - parseFloat(a.amount))
+    .slice(0, 3);
+  
+  document.getElementById('top3').innerHTML = top.length > 0 
+    ? top.map((x, i) => `<b>${i + 1}.</b> ${x.name} — ₹${x.amount}`).join('<br>')
+    : 'अभी तक कोई दान नहीं';
+  
+  let total = donations.reduce((s, d) => s + (parseFloat(d.amount) || 0), 0);
+  document.getElementById('total').innerText = '₹' + total.toLocaleString('en-IN');
+  document.getElementById('count').innerText = donations.length;
+}
+
+window.addEventListener('offline', () => updateSyncStatus(false));
+window.addEventListener('online', () => updateSyncStatus(true));
+
+// Wait for Firebase to load, then initialize
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeFirebase);
+} else {
+  initializeFirebase();
+}
+
+// Cleanup on page unload
+window.addEventListener('beforeunload', () => {
+  if (unsubscribe) unsubscribe();
+});
 </script>
 </body></html>
