@@ -2,7 +2,7 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>जय मां काली समिति</title>
 <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js"></script>
 <style>
 body{margin:0;font-family:Arial;background:linear-gradient(135deg,#250000,#6d0000,#a31616);color:#fff}
 .hero{padding:35px;text-align:center;animation:fade 1.3s}
@@ -30,7 +30,7 @@ th,td{padding:10px;border:1px solid #ddd} th{background:#ffd700}
 <h1>🙏 जय मां काली समिति धौरहरा काली चरन 🙏</h1>
 <h2>(चंदा भुगतान सूची)</h2>
 <p>दिनांक 02/06/2026 को आयोजित विशाल भंडारे हेतु सहयोग राशि विवरण</p>
-<div id="syncStatus" class="status online">✅ Live Sync Active</div>
+<div id="syncStatus" class="status online">🔄 Firestore से sync हो रहा है...</div>
 </div>
 
 <div class="card">
@@ -77,7 +77,6 @@ th,td{padding:10px;border:1px solid #ddd} th{background:#ffd700}
 const firebaseConfig = {
   apiKey: "AIzaSyCFKEGvRPH8wsywMH8VmUses7AlqVt0cM",
   authDomain: "donation-a9366.firebaseapp.com",
-  databaseURL: "https://donation-a9366.firebaseio.com",
   projectId: "donation-a9366",
   storageBucket: "donation-a9366.firebasestorage.app",
   messagingSenderId: "631479489716",
@@ -87,29 +86,26 @@ const firebaseConfig = {
 
 let admin = false;
 let donations = [];
-let donationsMap = {};
+let unsubscribe = null;
 
 try {
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
   }
   
-  const database = firebase.database();
-  const donationsRef = database.ref('donations');
+  const db = firebase.firestore();
+  const donationsCollection = db.collection('donations');
 
-  // Real-time sync
-  donationsRef.on('value', (snapshot) => {
-    if (snapshot.exists()) {
-      donationsMap = snapshot.val();
-      donations = Object.values(donationsMap);
-    } else {
-      donations = [];
-      donationsMap = {};
-    }
+  // Real-time sync from Firestore
+  unsubscribe = donationsCollection.orderBy('date', 'desc').onSnapshot((snapshot) => {
+    donations = [];
+    snapshot.forEach((doc) => {
+      donations.push({ id: doc.id, ...doc.data() });
+    });
     render();
     updateSyncStatus(true);
   }, (error) => {
-    console.error('Database error:', error);
+    console.error('Firestore error:', error);
     updateSyncStatus(false);
   });
 
@@ -117,10 +113,10 @@ try {
     const status = document.getElementById('syncStatus');
     if (online) {
       status.className = 'status online';
-      status.innerText = '✅ Live Sync Active - सभी devices पर real-time update';
+      status.innerText = '✅ Live Sync Active - Firestore से real-time update';
     } else {
       status.className = 'status offline';
-      status.innerText = '❌ Connection Error';
+      status.innerText = '❌ Firestore Connection Error';
     }
   }
 
@@ -156,11 +152,12 @@ try {
       return;
     }
     
-    donationsRef.push({
+    donationsCollection.add({
       name: name,
       amount: amount,
       date: date,
-      special: special || ''
+      special: special || '',
+      timestamp: new Date()
     }).then(() => {
       document.getElementById('donorName').value = '';
       document.getElementById('donorAmount').value = '';
@@ -176,14 +173,12 @@ try {
     if (!admin) return;
     
     if (confirm('क्या आप इस दान को हटाना चाहते हैं?')) {
-      const keys = Object.keys(donationsMap);
-      if (keys[index]) {
-        donationsRef.child(keys[index]).remove().then(() => {
-          alert('✅ Donation delete हो गया');
-        }).catch((error) => {
-          alert('❌ Error: ' + error.message);
-        });
-      }
+      const docId = donations[index].id;
+      donationsCollection.doc(docId).delete().then(() => {
+        alert('✅ Donation delete हो गया');
+      }).catch((error) => {
+        alert('❌ Error: ' + error.message);
+      });
     }
   }
 
@@ -218,9 +213,14 @@ try {
   window.addEventListener('offline', () => updateSyncStatus(false));
   window.addEventListener('online', () => updateSyncStatus(true));
 
+  // Cleanup on page unload
+  window.addEventListener('beforeunload', () => {
+    if (unsubscribe) unsubscribe();
+  });
+
 } catch (error) {
   console.error('Firebase error:', error);
-  document.getElementById('syncStatus').innerText = '❌ Firebase Error';
+  document.getElementById('syncStatus').innerText = '❌ Firebase Error: ' + error.message;
 }
 </script>
 </body></html>
