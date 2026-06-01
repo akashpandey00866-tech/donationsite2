@@ -1,299 +1,921 @@
-<!DOCTYPE html><html lang="hi"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>जय मां काली समिति</title>
-<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js"></script>
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>जय मां काली समिति धौरहरा काली चरन</title>
+
 <style>
-body{margin:0;font-family:Arial;background:linear-gradient(135deg,#250000,#6d0000,#a31616);color:#fff}
-.hero{padding:35px;text-align:center;animation:fade 1.3s}
-.card{max-width:1200px;margin:20px auto;background:rgba(255,255,255,.12);padding:25px;border-radius:28px;backdrop-filter:blur(10px);box-shadow:0 0 20px rgba(255,215,0,.3)}
-.pay{background:linear-gradient(45deg,#ffd700,#ffae00);color:#000;border:none;padding:16px 28px;border-radius:40px;font-size:18px;font-weight:bold;cursor:pointer;animation:pulse 1.6s infinite}
-.rank{background:rgba(255,215,0,.15);padding:20px;border-radius:20px;margin:20px 0}
-.stats{display:flex;gap:15px;flex-wrap:wrap}
-.stat{flex:1;background:rgba(255,255,255,.15);padding:15px;border-radius:15px;text-align:center}
-input,button{padding:12px;width:100%;margin:6px 0;border:none;border-radius:12px}
-table{width:100%;border-collapse:collapse;background:#fff;color:#000;border-radius:14px;overflow:hidden}
-th,td{padding:10px;border:1px solid #ddd} th{background:#ffd700}
-#adminPanel{display:none}
-.delete{background:#c60000;color:#fff;cursor:pointer}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);justify-content:center;align-items:center;z-index:99}
-.modalbox{background:#fff;color:#000;padding:20px;border-radius:20px;text-align:center;max-width:360px;width:90%}
-.modalbox img{width:280px;max-width:100%;border-radius:15px}
-.status{padding:10px;margin:10px 0;border-radius:8px;text-align:center;font-weight:bold;font-size:14px}
-.online{background:#28a745;color:#fff}
-.offline{background:#dc3545;color:#fff}
-@keyframes pulse{50%{transform:scale(1.06)}}
-@keyframes fade{from{opacity:0;transform:translateY(-15px)}to{opacity:1}}
-</style></head><body>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:linear-gradient(135deg,#240000,#5c0000,#930000);
+color:#fff;
+min-height:100vh;
+padding:20px;
+}
+
+.container{
+max-width:1200px;
+margin:auto;
+}
+
+.hero{
+text-align:center;
+padding:30px 20px;
+margin-bottom:20px;
+border-radius:25px;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(10px);
+box-shadow:0 0 20px rgba(255,215,0,.2);
+}
+
+.hero h1{
+font-size:42px;
+margin-bottom:15px;
+color:#ffd700;
+}
+
+.hero h2{
+font-size:24px;
+margin-bottom:10px;
+}
+
+.hero p{
+font-size:18px;
+line-height:1.7;
+}
+
+.card{
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(10px);
+padding:25px;
+border-radius:25px;
+margin-bottom:20px;
+box-shadow:0 0 15px rgba(255,255,255,.1);
+}
+
+.section-title{
+font-size:30px;
+text-align:center;
+margin-bottom:20px;
+color:#ffd700;
+}
+
+.pay-box{
+text-align:center;
+}
+
+.upi{
+font-size:25px;
+font-weight:bold;
+margin-top:10px;
+color:#ffd700;
+}
+
+.pay-btn{
+background:#ffd700;
+color:#000;
+border:none;
+padding:15px 35px;
+font-size:20px;
+border-radius:50px;
+cursor:pointer;
+font-weight:bold;
+margin-top:20px;
+transition:.3s;
+}
+
+.pay-btn:hover{
+transform:scale(1.05);
+}
+
+.qr-box{
+display:none;
+position:fixed;
+top:0;
+left:0;
+right:0;
+bottom:0;
+background:rgba(0,0,0,.9);
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+
+.qr-card{
+background:#fff;
+color:#000;
+padding:30px;
+border-radius:25px;
+text-align:center;
+width:90%;
+max-width:400px;
+}
+
+.qr-card img{
+width:100%;
+border-radius:20px;
+margin-top:15px;
+}
+
+.close-btn{
+background:red;
+color:#fff;
+border:none;
+padding:12px 20px;
+margin-top:20px;
+border-radius:15px;
+cursor:pointer;
+font-size:16px;
+}
+
+.stats{
+display:flex;
+gap:15px;
+flex-wrap:wrap;
+margin-top:20px;
+}
+
+.stat-box{
+flex:1;
+min-width:250px;
+background:rgba(255,255,255,.08);
+padding:20px;
+text-align:center;
+border-radius:20px;
+}
+
+.stat-box h2{
+font-size:40px;
+margin-top:10px;
+}
+
+.admin-login{
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+input{
+padding:15px;
+border:none;
+outline:none;
+border-radius:15px;
+font-size:17px;
+}
+
+button{
+padding:15px;
+border:none;
+border-radius:15px;
+font-size:17px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.login-btn{
+background:#ffd700;
+color:#000;
+}
+
+#adminPanel{
+display:none;
+margin-top:20px;
+}
+
+.form-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:15px;
+}
+
+.add-btn{
+background:green;
+color:#fff;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+background:#fff;
+color:#000;
+border-radius:15px;
+overflow:hidden;
+}
+
+th{
+background:#ffd700;
+padding:15px;
+}
+
+td{
+padding:15px;
+border:1px solid #ddd;
+text-align:center;
+}
+
+.delete-btn{
+background:red;
+color:#fff;
+padding:8px 15px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+}
+
+.edit-btn{
+background:blue;
+color:#fff;
+padding:8px 15px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+margin-right:5px;
+}
+
+.footer{
+text-align:center;
+margin-top:20px;
+padding:20px;
+font-size:18px;
+}
+
+@media(max-width:700px){
+
+.hero h1{
+font-size:30px;
+}
+
+.section-title{
+font-size:24px;
+}
+
+table{
+font-size:13px;
+}
+
+td,th{
+padding:8px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
 
 <div class="hero">
-<h1>🙏 जय मां काली समिति धौरहरा काली चरन 🙏</h1>
-<h2>(चंदा भुगतान सूची)</h2>
-<p>दिनांक 02/06/2026 को आयोजित विशाल भंडारे हेतु सहयोग राशि विवरण</p>
-<div id="syncStatus" class="status online">🔄 Firestore से sync हो रहा है...</div>
+
+<h1>🙏 जय मां काली समिति 🙏</h1>
+
+<h2>धौरहरा काली चरन</h2>
+
+<p>
+दिनांक 02/06/2026 को आयोजित विशाल भंडारे हेतु सहयोग राशि
+</p>
+
 </div>
 
 <div class="card">
-<h2 style="text-align:center">UPI ID: 8004315078@axl</h2>
-<div style="text-align:center"><button class="pay" onclick="showQR()">🌺 Pay Now / दान करें 🌺</button></div>
+
+<h2 class="section-title">
+🌺 दान करें 🌺
+</h2>
+
+<div class="pay-box">
+
+<h3>UPI ID</h3>
+
+<div class="upi">
+8004315078@axl
+</div>
+
+<button class="pay-btn" onclick="showQR()">
+QR Scan करके दान करें
+</button>
+
+</div>
 
 <div class="stats">
-<div class="stat"><h3>कुल सहयोगी</h3><h2 id="count">0</h2></div>
-<div class="stat"><h3>कुल राशि</h3><h2 id="total">₹0</h2></div>
+
+<div class="stat-box">
+<h3>कुल सहयोगी</h3>
+<h2 id="count">0</h2>
 </div>
 
-<div class="rank">
-<h2>🏆 माँ काली के विशेष सहयोगी 🏆</h2>
-<p id="top3">Loading...</p>
-<p>माँ काली की कृपा आप सभी भक्तों पर सदैव बनी रहे। आपके सहयोग, सेवा और श्रद्धा सदैव स्वीकार्य हो।</p>
+<div class="stat-box">
+<h3>कुल राशि</h3>
+<h2 id="total">₹0</h2>
 </div>
 
-<h2>🔐 Admin Login</h2>
-<input id="pass" type="password" placeholder="Admin Password">
-<button onclick="login()">Login</button>
+</div>
+
+</div>
+
+<div class="card">
+
+<h2 class="section-title">
+🔐 Admin Login
+</h2>
+
+<div class="admin-login">
+
+<input
+type="password"
+id="password"
+placeholder="Admin Password"
+/>
+
+<button
+class="login-btn"
+onclick="login()">
+Login
+</button>
+
+</div>
 
 <div id="adminPanel">
-<h3>दानदाता जोड़ें</h3>
-<input id="donorName" placeholder="नाम / Name">
-<input id="donorAmount" placeholder="राशि / Amount">
-<input id="donorDate" placeholder="दिनांक">
-<input id="donorSpecial" placeholder="विशेष सहयोग">
-<button onclick="addDonation()">Add Donation</button>
+
+<h2 class="section-title">
+➕ Donor Add
+</h2>
+
+<div class="form-grid">
+
+<input
+id="name"
+placeholder="दानदाता नाम"
+/>
+
+<input
+id="amount"
+placeholder="राशि"
+/>
+
+<input
+id="date"
+placeholder="दिनांक"
+/>
+
+<input
+id="special"
+placeholder="विशेष सहयोग"
+/>
+
 </div>
 
-<h2>📜 दानदाताओं की सूची</h2>
-<table><thead><tr><th>Name</th><th>Amount</th><th>Date</th><th>Special</th><th>Action</th></tr></thead>
-<tbody id="table"></tbody></table>
+<button
+class="add-btn"
+onclick="addDonation()">
+Donation Add
+</button>
+
 </div>
 
-<div id="qr" class="modal" onclick="hideQR()"><div class="modalbox" onclick="event.stopPropagation()">
-<h2>QR Scan करके दान करें</h2>
-<svg width="280" height="280" style="border-radius:15px;background:#fff;padding:10px" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-  <rect width="200" height="200" fill="white"/>
-  <rect x="10" y="10" width="50" height="50" fill="black"/>
-  <rect x="15" y="15" width="40" height="40" fill="white"/>
-  <rect x="18" y="18" width="34" height="34" fill="black"/>
-  <rect x="140" y="10" width="50" height="50" fill="black"/>
-  <rect x="145" y="15" width="40" height="40" fill="white"/>
-  <rect x="148" y="18" width="34" height="34" fill="black"/>
-  <rect x="10" y="140" width="50" height="50" fill="black"/>
-  <rect x="15" y="145" width="40" height="40" fill="white"/>
-  <rect x="18" y="148" width="34" height="34" fill="black"/>
-  <rect x="70" y="70" width="60" height="60" fill="black" opacity="0.1"/>
-  <text x="100" y="180" font-size="12" text-anchor="middle" fill="black">UPI QR</text>
-</svg>
-<p><b>UPI:</b> 8004315078@axl</p>
-<button onclick="hideQR()">Close</button>
-</div></div>
+</div>
 
-<script>
+<div class="card">
+
+<h2 class="section-title">
+📜 दानदाताओं की सूची
+</h2>
+
+<div style="overflow-x:auto">
+
+<table>
+
+<thead>
+
+<tr>
+<th>नाम</th>
+<th>राशि</th>
+<th>दिनांक</th>
+<th>विशेष सहयोग</th>
+<th>Action</th>
+</tr>
+
+</thead>
+
+<tbody id="table"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2 class="section-title">
+🌺 विशेष सहयोग 🌺
+</h2>
+
+<div style="line-height:2;font-size:18px">
+
+<p>
+✅ श्री संदीप पाण्डेय की ओर से
+टेंट, लाइट एवं साउंड की व्यवस्था
+</p>
+
+<p>
+✅ श्री कपिल पांडेय की ओर से
+1 टीन रिफाइंड की व्यवस्था
+</p>
+
+</div>
+
+</div>
+
+<div class="footer">
+
+<p>
+जय श्री राम 🚩
+</p>
+
+<p>
+जय मां काली 🚩
+</p>
+
+<p>
+आप सभी सहयोगियों का बहुत बहुत धन्यवाद
+</p>
+
+</div>
+
+</div>
+
+<div
+class="qr-box"
+id="qrBox">
+
+<div class="qr-card">
+
+<h2>
+QR Scan करके दान करें
+</h2>
+
+<img
+src="PUT_YOUR_QR_IMAGE_LINK_HERE"
+alt="QR Code"
+/>
+
+<h3 style="margin-top:20px">
+UPI:
+8004315078@axl
+</h3>
+
+<button
+class="close-btn"
+onclick="hideQR()">
+Close
+</button>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+addDoc,
+deleteDoc,
+doc,
+onSnapshot
+}
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 const firebaseConfig = {
-  apiKey: "AIzaSyCFKEGvRPH8wsywMH8VmUses7AlqVt0cM",
-  authDomain: "donation-a9366.firebaseapp.com",
-  projectId: "donation-a9366",
-  storageBucket: "donation-a9366.firebasestorage.app",
-  messagingSenderId: "631479489716",
-  appId: "1:631479489716:web:698e06dd63262bcd91b3e1",
-  measurementId: "G-4QCJK5165H"
+
+apiKey:
+"AIzaSyCFKEGvRPH8wsywMH8VmUses7AlqVt0cM",
+
+authDomain:
+"donation-a9366.firebaseapp.com",
+
+projectId:
+"donation-a9366",
+
+storageBucket:
+"donation-a9366.firebasestorage.app",
+
+messagingSenderId:
+"631479489716",
+
+appId:
+"1:631479489716:web:698e06dd63262bcd91b3e1",
+
+measurementId:
+"G-4QCJK5165H"
+
 };
 
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
 let admin = false;
+
 let donations = [];
-let unsubscribe = null;
-let db = null;
 
-// ✅ FIX: Firebase SDK load hone ka wait karo
-function waitForFirebase(callback, retries = 50) {
-  if (typeof window.firebase !== 'undefined' && window.firebase.apps) {
-    callback();
-  } else if (retries > 0) {
-    setTimeout(() => waitForFirebase(callback, retries - 1), 100);
-  } else {
-    console.error('Firebase SDK failed to load');
-    updateSyncStatus(false);
-  }
+const table =
+document.getElementById("table");
+
+function showQR(){
+
+document.getElementById(
+"qrBox"
+).style.display="flex";
+
 }
 
-// Initialize Firebase
-function initializeFirebase() {
-  try {
-    if (!window.firebase.apps.length) {
-      window.firebase.initializeApp(firebaseConfig);
-      console.log('✅ Firebase initialized');
-    }
-    
-    db = window.firebase.firestore();
-    console.log('✅ Firestore initialized');
-    
-    // Set up real-time listener
-    setupDataListener();
+function hideQR(){
 
-  } catch (error) {
-    console.error('❌ Firebase initialization error:', error);
-    document.getElementById('syncStatus').innerText = '❌ Error: ' + error.message;
-    updateSyncStatus(false);
-  }
+document.getElementById(
+"qrBox"
+).style.display="none";
+
 }
 
-function setupDataListener() {
-  if (!db) {
-    console.error('DB not initialized');
-    return;
-  }
+window.showQR = showQR;
+window.hideQR = hideQR;
 
-  const donationsCollection = db.collection('donations');
+function render(){
 
-  // Real-time sync from Firestore
-  unsubscribe = donationsCollection.onSnapshot((snapshot) => {
-    donations = [];
-    snapshot.forEach((doc) => {
-      donations.push({ id: doc.id, ...doc.data() });
-    });
-    
-    console.log('📊 Donations loaded:', donations.length);
-    
-    // Sort in JavaScript
-    donations.sort((a, b) => {
-      const dateA = new Date(a.date || '1900-01-01');
-      const dateB = new Date(b.date || '1900-01-01');
-      return dateB - dateA;
-    });
-    
-    render();
-    updateSyncStatus(true);
-  }, (error) => {
-    console.error('❌ Firestore listener error:', error);
-    console.log('Error code:', error.code);
-    console.log('Error message:', error.message);
-    updateSyncStatus(false);
-  });
+table.innerHTML = "";
+
+donations.forEach((d)=>{
+
+table.innerHTML += `
+
+<tr>
+
+<td>${d.name}</td>
+
+<td>
+₹${d.amount}
+</td>
+
+<td>
+${d.date || "-"}
+</td>
+
+<td>
+${d.special || "-"}
+</td>
+
+<td>
+
+${
+admin
+?
+`
+<button
+class="delete-btn"
+onclick="removeDonation('${d.id}')">
+Delete
+</button>
+`
+:
+"🔒"
 }
 
-function updateSyncStatus(online) {
-  const status = document.getElementById('syncStatus');
-  if (online) {
-    status.className = 'status online';
-    status.innerText = '✅ Live Sync Active - Firestore से real-time update';
-  } else {
-    status.className = 'status offline';
-    status.innerText = '❌ Firestore Connection Error - Check Console';
-  }
-}
+</td>
 
-function showQR() {
-  document.getElementById('qr').style.display = 'flex';
-}
+</tr>
 
-function hideQR() {
-  document.getElementById('qr').style.display = 'none';
-}
+`;
 
-function login() {
-  if (document.getElementById('pass').value === 'ashok#') {
-    admin = true;
-    document.getElementById('adminPanel').style.display = 'block';
-    render();
-    alert('✅ Admin Login Success');
-  } else {
-    alert('❌ Wrong password');
-  }
-}
-
-function addDonation() {
-  if (!admin) return;
-  
-  const name = document.getElementById('donorName').value.trim();
-  const amount = document.getElementById('donorAmount').value.trim();
-  const date = document.getElementById('donorDate').value.trim();
-  const special = document.getElementById('donorSpecial').value.trim();
-  
-  if (!name || !amount) {
-    alert('❌ नाम और राशि दोनों भरें');
-    return;
-  }
-  
-  if (!db) {
-    alert('❌ Firebase not connected');
-    return;
-  }
-  
-  db.collection('donations').add({
-    name: name,
-    amount: String(amount),
-    date: date || new Date().toLocaleDateString('hi-IN'),
-    special: special || '',
-    timestamp: new Date()
-  }).then(() => {
-    document.getElementById('donorName').value = '';
-    document.getElementById('donorAmount').value = '';
-    document.getElementById('donorDate').value = '';
-    document.getElementById('donorSpecial').value = '';
-    alert('✅ दान सफलतापूर्वक जोड़ा गया!\n\n💫 सभी devices पर automatically update हो गया');
-  }).catch((error) => {
-    console.error('Error adding donation:', error);
-    alert('❌ Error: ' + error.message);
-  });
-}
-
-function del(index) {
-  if (!admin) return;
-  
-  if (confirm('क्या आप इस दान को हटाना चाहते हैं?')) {
-    const docId = donations[index].id;
-    if (!db) {
-      alert('❌ Firebase not connected');
-      return;
-    }
-    db.collection('donations').doc(docId).delete().then(() => {
-      alert('✅ Donation delete हो गया');
-    }).catch((error) => {
-      console.error('Error deleting donation:', error);
-      alert('�� Error: ' + error.message);
-    });
-  }
-}
-
-function render() {
-  const table = document.getElementById('table');
-  table.innerHTML = '';
-  
-  if (donations.length === 0) {
-    table.innerHTML = '<tr><td colspan="5" style="text-align:center">अभी तक कोई दान नहीं</td></tr>';
-  } else {
-    donations.forEach((d, i) => {
-      table.innerHTML += `<tr>
-        <td>${d.name || 'N/A'}</td>
-        <td>₹${d.amount || '0'}</td>
-        <td>${d.date || 'N/A'}</td>
-        <td>${d.special || '-'}</td>
-        <td>${admin ? `<button class='delete' onclick='del(${i})'>Delete</button>` : '🔒'}</td>
-      </tr>`;
-    });
-  }
-  
-  let top = donations
-    .filter(x => !isNaN(parseFloat(x.amount)))
-    .sort((a, b) => parseFloat(b.amount) - parseFloat(a.amount))
-    .slice(0, 3);
-  
-  document.getElementById('top3').innerHTML = top.length > 0 
-    ? top.map((x, i) => `<b>${i + 1}.</b> ${x.name} — ₹${x.amount}`).join('<br>')
-    : 'अभी तक कोई दान नहीं';
-  
-  let total = donations.reduce((s, d) => s + (parseFloat(d.amount) || 0), 0);
-  document.getElementById('total').innerText = '₹' + total.toLocaleString('en-IN');
-  document.getElementById('count').innerText = donations.length;
-}
-
-window.addEventListener('offline', () => updateSyncStatus(false));
-window.addEventListener('online', () => updateSyncStatus(true));
-
-// ✅ FIX: Firebase SDK load hone ka wait karo, phir initialize karo
-waitForFirebase(initializeFirebase);
-
-// Cleanup on page unload
-window.addEventListener('beforeunload', () => {
-  if (unsubscribe) unsubscribe();
 });
+
+let total = 0;
+
+donations.forEach((d)=>{
+
+total += Number(d.amount || 0);
+
+});
+
+document.getElementById(
+"total"
+).innerText =
+"₹" +
+total.toLocaleString("en-IN");
+
+document.getElementById(
+"count"
+).innerText =
+donations.length;
+
+}
+
+window.login = function(){
+
+const pass =
+document.getElementById(
+"password"
+).value;
+
+if(pass === "ashok#"){
+
+admin = true;
+
+document.getElementById(
+"adminPanel"
+).style.display =
+"block";
+
+render();
+
+alert(
+"✅ Login Success"
+);
+
+}else{
+
+alert(
+"❌ Wrong Password"
+);
+
+}
+
+};
+
+window.addDonation =
+async function(){
+
+if(!admin) return;
+
+const name =
+document.getElementById(
+"name"
+).value;
+
+const amount =
+document.getElementById(
+"amount"
+).value;
+
+const date =
+document.getElementById(
+"date"
+).value;
+
+const special =
+document.getElementById(
+"special"
+).value;
+
+if(!name || !amount){
+
+alert(
+"❌ Name और Amount जरूरी है"
+);
+
+return;
+
+}
+
+await addDoc(
+collection(
+db,
+"donations"
+),
+{
+name,
+amount,
+date,
+special
+}
+);
+
+document.getElementById(
+"name"
+).value="";
+
+document.getElementById(
+"amount"
+).value="";
+
+document.getElementById(
+"date"
+).value="";
+
+document.getElementById(
+"special"
+).value="";
+
+alert(
+"✅ Donation Added"
+);
+
+};
+  
+window.removeDonation =
+async function(id){
+
+const ok =
+confirm(
+"क्या आप donation delete करना चाहते हैं?"
+);
+
+if(!ok) return;
+
+await deleteDoc(
+doc(
+db,
+"donations",
+id
+)
+);
+
+alert(
+"✅ Donation Deleted"
+);
+
+};
+
+onSnapshot(
+collection(
+db,
+"donations"
+),
+(snapshot)=>{
+
+donations=[];
+
+snapshot.forEach((d)=>{
+
+donations.push({
+id:d.id,
+...d.data()
+});
+
+});
+
+donations.sort(
+(a,b)=>
+Number(b.amount)-Number(a.amount)
+);
+
+render();
+
+}
+);
+
+/* ===========================
+DEFAULT DONOR DATA
+पहली बार Firestore खाली हो
+तो ये donors add हो जाएंगे
+=========================== */
+
+async function seedData(){
+
+if(donations.length>0)
+return;
+
+const donorList = [
+
+{
+name:"संजय पाण्डेय",
+amount:2000,
+date:"02/06/2026"
+},
+
+{
+name:"श्री सुरेश पांडेय",
+amount:1100,
+date:"02/06/2026"
+},
+
+{
+name:"श्री रामयज्ञ पांडेय",
+amount:1100,
+date:"02/06/2026"
+},
+
+{
+name:"श्री राम अंजोर पांडेय",
+amount:1100,
+date:"02/06/2026"
+},
+
+{
+name:"श्री इंद्रपाल पांडेय",
+amount:1000,
+date:"02/06/2026"
+},
+
+{
+name:"श्री अमरनाथ पांडेय",
+amount:1100,
+date:"02/06/2026"
+},
+
+{
+name:"श्री अनिल पांडेय",
+amount:501,
+date:"02/06/2026"
+},
+
+{
+name:"श्री चंद्रप्रकाश पांडेय",
+amount:501,
+date:"02/06/2026"
+},
+
+{
+name:"श्री अखिलेश पांडेय",
+amount:501,
+date:"02/06/2026"
+},
+
+{
+name:"श्री अमन पांडेय",
+amount:500,
+date:"02/06/2026"
+},
+
+{
+name:"श्री श्री राम पांडेय",
+amount:500,
+date:"02/06/2026"
+},
+
+{
+name:"श्री अमित पांडेय",
+amount:500,
+date:"02/06/2026"
+},
+
+{
+name:"श्री श्रीनिवास पांडेय",
+amount:500,
+date:"02/06/2026"
+},
+
+{
+name:"श्री आनंद तिवारी",
+amount:500,
+date:"02/06/2026"
+},
+
+{
+name:"श्री अरविंद पांडेय",
+amount:500,
+date:"02/06/2026"
+},
+
+{
+name:"श्री पंकज पांडेय",
+amount:500,
+date:"02/06/2026"
+}
+
+];
+
+for(const donor of donorList){
+
+await addDoc(
+collection(
+db,
+"donations"
+),
+donor
+);
+
+}
+
+console.log(
+"Donor Data Added"
+);
+
+}
+
+setTimeout(()=>{
+seedData();
+},3000);
+
 </script>
-</body></html>
+
+</body>
+</html>
